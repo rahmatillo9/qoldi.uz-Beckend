@@ -2,6 +2,8 @@ import { CategoryDto } from './../validators/category.validator';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Category } from './category.entity';
+import { Product } from 'src/product/product.entity';
+import { ProductImage } from 'src/product-image/product-image.entity';
 
 @Injectable()
 export class CategoryService {
@@ -15,12 +17,34 @@ export class CategoryService {
     }
 
     async getAllCategories(): Promise<Category[]> {
-        const categories = await this.categoryModel.findAll();
+        const categories = await this.categoryModel.findAll({
+            include: [
+                {
+                  model: Product,
+                  include: [
+                    {
+                      model: ProductImage,
+                    },
+                  ],
+                },
+              ],
+        });
         return categories;
     }
 
     async getCategoryById(id: number): Promise<Category> {
-        const category = await this.categoryModel.findByPk(id);
+        const category = await this.categoryModel.findByPk(id, {
+            include: [
+                {
+                  model: Product,
+                  include: [
+                    {
+                      model: ProductImage,
+                    },
+                  ],
+                },
+              ],
+        });
         if (!category) {
             throw new Error(`Category with id ${id} not found`);
         }
@@ -39,7 +63,18 @@ export class CategoryService {
     }
     
     async getCategoryByName(name: string): Promise<Category> {
-        const category = await this.categoryModel.findOne({ where: { name } });
+        const category = await this.categoryModel.findOne({ where: { name },
+            include: [
+                {
+                  model: Product,
+                  include: [
+                    {
+                      model: ProductImage,
+                    },
+                  ],
+                },
+              ],
+        });
         if (!category) {
             throw new Error(`Category with name ${name} not found`);
         }

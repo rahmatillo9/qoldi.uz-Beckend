@@ -19,62 +19,45 @@ import { ChatRoom } from 'src/chat-room/chat-room.entity';
   timestamps: true,
 })
 export class Product extends Model<Product> {
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  title!: string;
+  @Column({ type: DataType.STRING, allowNull: false })
+  title: string;
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  description!: string;
+  @Column({ type: DataType.STRING, allowNull: false })
+  description: string;
 
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: false,
-  })
-  price!: number;
+  @Column({ type: DataType.INTEGER, allowNull: false })
+  price: number;
 
   @Column({
     type: DataType.ENUM('available', 'sold'),
     allowNull: false,
     defaultValue: 'available',
-})
-status!: 'available' | 'sold';
-
+  })
+  status: 'available' | 'sold';
 
   @ForeignKey(() => Category)
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: false,
-  })
-  categoryId!: number;
+  @Column({ type: DataType.INTEGER, allowNull: false })
+  categoryId: number;
 
   @BelongsTo(() => Category)
-  category!: Category;
+  category: Category;
 
   @ForeignKey(() => User)
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: true,
-  })
-  userId!: number;
+  @Column({ type: DataType.INTEGER, allowNull: true })
+  userId: number;
 
   @BelongsTo(() => User)
-  user!: User;
+  user: User;
 
-  @HasMany(() => ProductImage)
-  images!: ProductImage[];
+  @HasMany(() => ProductImage, { foreignKey: 'productId', as: 'images', onDelete: 'CASCADE' })
+  images: ProductImage[];
 
+  @HasMany(() => Favorites, { onDelete: 'CASCADE' })
+  favorites: Favorites[];
 
-  @HasMany(() => Favorites)
-  favorites!: Favorites[];
+  @HasMany(() => Messages, { onDelete: 'CASCADE' })
+  messages: Messages[];
 
-  @HasMany(() => Messages)
-  messages!: Messages[];
-
-  @HasMany(() => ChatRoom)
-  chatRooms!: ChatRoom[];
+  @HasMany(() => ChatRoom, { onDelete: 'CASCADE' })
+  chatRooms: ChatRoom[];
 }

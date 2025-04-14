@@ -25,11 +25,11 @@ import {
   export class ProductImageController {
     constructor(private readonly productImageService: ProductImageService) {}
   
-    @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles(Role.Admin, Role.Customer)
+    // @UseGuards(JwtAuthGuard, RolesGuard)
+    // @Roles(Role.Admin, Role.Customer)
     @Post()
     @UseInterceptors(
-      FileInterceptor('image', {
+      FileInterceptor('imageUrl', {
         storage: diskStorage({
           destination: './uploads/productImage',
           filename: (req, file, cb) => {
@@ -68,11 +68,11 @@ import {
       return { message: 'All images fetched', images };
     }
   
-    @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles(Role.Admin, Role.Customer)
+    // @UseGuards(JwtAuthGuard, RolesGuard)
+    // @Roles(Role.Admin, Role.Customer)
     @Put(':id')
     @UseInterceptors(
-      FileInterceptor('image', {
+      FileInterceptor('imageUrl', {
         storage: diskStorage({
           destination: './uploads/productImage',
           filename: (req, file, cb) => {
@@ -113,8 +113,8 @@ import {
       return { message: 'Product image updated', updatedImage };
     }
   
-    @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles(Role.Admin, Role.Customer)
+    // @UseGuards(JwtAuthGuard, RolesGuard)
+    // @Roles(Role.Admin, Role.Customer)
     @Delete(':id')
     async delete(@Param('id') id: number) {
       await this.productImageService.delete(id);

@@ -43,7 +43,16 @@ export class ProductController {
     }
 
     @Delete(':id')
-    async deleteProduct(@Param('id') id: number) {
-        return await this.productService.deleteProduct(id);
+    async delete(@Param('id') id: string) {
+      try {
+        const result = await this.productService.deleteProduct(parseInt(id, 10));
+        return result;
+      } catch (error) {
+        return {
+          message: 'Error deleting product ',
+          error: error.message,
+        };
+      }
     }
+    
 }

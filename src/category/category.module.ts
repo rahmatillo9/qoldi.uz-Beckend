@@ -4,10 +4,11 @@ import { CategoryController } from './category.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Category } from './category.entity';
 import { Product } from 'src/product/product.entity';
+import { ProductImage } from 'src/product-image/product-image.entity';
 
 @Module({
   imports: [
-    SequelizeModule.forFeature([Category, Product]),
+    SequelizeModule.forFeature([Category, Product, ProductImage, ]),
   ],
   providers: [CategoryService],
   controllers: [CategoryController],
