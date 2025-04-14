@@ -1,98 +1,159 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+Albatta, mana sizning backend uchun `README.md` namunasi:
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+---
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+# Qoldi Backend
 
-## Description
+Bu loyiha **Qoldi** ilovasining backend qismini tashkil qiladi. Ilova, foydalanuvchilarga turli mahsulotlar haqida xabarlar yuborish, sevimli mahsulotlarini saqlash, chat xonalarida muloqot qilish imkonini beradi.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Texnologiyalar
 
-## Project setup
+- **NestJS** - Backend framework
+- **Sequelize** - ORM (PostgreSQL bilan ishlash uchun)
+- **WebSocket (Socket.io)** - Real-time xabarlar tizimi
+- **PostgreSQL** - Ma'lumotlar bazasi
+- **TypeScript** - Dasturlash tili
+- **Jest** - Testlash uchun
+
+## O‘rnatish
+
+### 1. Loyiha fayllarini klonlash
+
+Loyihani klonlash uchun quyidagi buyruqni bajarish kerak:
 
 ```bash
-$ npm install
+git clone https://github.com/username/qoldi-backend.git
+cd qoldi-backend
 ```
 
-## Compile and run the project
+### 2. Zaruriy paketlarni o‘rnatish
+
+Loyihadagi barcha zaruriy paketlarni o‘rnatish uchun quyidagi buyruqni bajarish kerak:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
 ```
 
-## Run tests
+yoki `yarn`dan foydalanayotgan bo‘lsangiz:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+yarn install
 ```
 
-## Deployment
+### 3. Ma'lumotlar bazasini sozlash
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+`config/config.env` faylida ma'lumotlar bazasi ulanishi uchun kerakli sozlamalarni kiriting.
 
 ```bash
-$ npm install -g mau
-$ mau deploy
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=your_db_user
+DB_PASSWORD=your_db_password
+DB_NAME=qoldi_db
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### 4. Migratsiyalarni ishlatish
 
-## Resources
+Ma'lumotlar bazasini yaratish uchun kerakli migratsiyalarni bajarish:
 
-Check out a few resources that may come in handy when working with NestJS:
+```bash
+npm run migrate
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### 5. Serverni ishga tushurish
 
-## Support
+NestJS serverini ishga tushurish uchun:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```bash
+npm run start:dev
+```
 
-## Stay in touch
+yoki `yarn` bilan:
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```bash
+yarn start:dev
+```
 
-## License
+Server ishga tushgandan so‘ng, backend **`http://localhost:3000`** manzilida ishlay boshlaydi.
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+## API Endpoints
+
+### 1. **Foydalanuvchilar**
+
+- `POST /auth/register` - Foydalanuvchi ro‘yxatdan o‘tishi.
+- `POST /auth/login` - Foydalanuvchi tizimga kirishi.
+- `GET /users/me` - Tizimga kirgan foydalanuvchi ma'lumotlari.
+
+### 2. **Mahsulotlar**
+
+- `GET /products` - Barcha mahsulotlarni olish.
+- `GET /products/:id` - Mahsulot haqida ma'lumot olish.
+- `POST /products` - Yangi mahsulot qo‘shish.
+- `PUT /products/:id` - Mahsulotni yangilash.
+- `DELETE /products/:id` - Mahsulotni o‘chirish.
+
+### 3. **Rasm**
+
+- `POST /product-images` - Mahsulotga rasm qo‘shish.
+- `DELETE /product-images/:id` - Mahsulot rasmni o‘chirish.
+
+### 4. **Chat xonalar**
+
+- `GET /chat-rooms` - Barcha chat xonalarini olish.
+- `GET /chat-rooms/:id` - Maxsus chat xonasini olish.
+- `POST /chat-rooms` - Yangi chat xonasi yaratish.
+
+### 5. **Xabarlar**
+
+- `POST /messages` - Yangi xabar yuborish.
+- `GET /messages` - Barcha xabarlarni olish.
+- `GET /messages/:id` - Maxsus xabarni olish.
+
+### 6. **Sevimli mahsulotlar**
+
+- `POST /favorites` - Mahsulotni sevimli qilish.
+- `GET /favorites` - Foydalanuvchining sevimli mahsulotlarini olish.
+- `DELETE /favorites/:id` - Mahsulotni sevimlilardan o‘chirish.
+
+## Real-Time Chat (WebSocket)
+
+Loyiha **WebSocket** orqali real-time chat tizimiga ega. Foydalanuvchilar chat xonalariga kirishib, xabarlar yuborishlari mumkin.
+
+### WebSocket Server
+
+WebSocket serveri `@nestjs/platform-socket.io` paketidan foydalanadi va `MessageGateway` yordamida xabarlar real vaqt rejimida uzatiladi.
+
+**Tegishli URL:** `ws://localhost:3000/chat`
+
+## Testlar
+
+Testlarni ishga tushirish uchun:
+
+```bash
+npm run test
+```
+
+## Loyiha tuzilishi
+
+- `src/`: Asosiy kod
+  - `auth/`: Foydalanuvchi autentifikatsiyasi va avtorizatsiya
+  - `chat-room/`: Chat xonalarining servis va kontrollerlari
+  - `message/`: Xabarlar bilan ishlash
+  - `product/`: Mahsulotlar bilan ishlash
+  - `product-image/`: Mahsulot rasmlari bilan ishlash
+  - `favorites/`: Foydalanuvchining sevimli mahsulotlari
+  - `users/`: Foydalanuvchi ma'lumotlari
+  - `common/`: Umumiy yordamchi funksiyalar va interfeyslar
+
+## Xatoliklar va muammolar
+
+Agar muammo yuzaga kelsa yoki xatoliklar bo‘lsa, bizning [GitHub Issues](https://github.com/username/qoldi-backend/issues) sahifamizga murojaat qiling.
+
+## Yordam
+
+Agar loyihani o‘rganishda yoki ishlatishda muammolar bo‘lsa, biz bilan bog‘laning:  
+Email: support@qoldi.uz
+
+---
+
+Bu `README.md` namunasi sizning loyihangizga mos ravishda o‘zgartirilishi mumkin. Shuningdek, real-time xabarlar tizimi va WebSocket haqida ko‘proq tafsilotlar berilgan. Agar qo‘shimcha xususiyatlar kerak bo‘lsa, ular ham kiritilishi mumkin.
