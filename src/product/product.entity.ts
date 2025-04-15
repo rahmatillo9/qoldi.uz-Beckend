@@ -46,6 +46,18 @@ export class Product extends Model<Product> {
   @Column({ type: DataType.INTEGER, allowNull: true })
   userId: number;
 
+  @Column({
+    type: DataType.FLOAT,
+    allowNull: true,
+  })
+  latitude: number;
+
+  @Column({
+    type: DataType.FLOAT,
+    allowNull: true,
+  })
+  longitude: number;
+
   @BelongsTo(() => User)
   user: User;
 

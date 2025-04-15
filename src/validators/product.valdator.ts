@@ -29,4 +29,11 @@ export class ProductDto {
     @IsNumber()
     @IsNotEmpty()
     userId: number;
+
+    @IsNumber()
+    latitude: number;
+
+    @IsNumber()
+    longitude: number;
+    
 }
