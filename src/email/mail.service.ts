@@ -24,7 +24,7 @@ export class MailService {
   async sendEmail(to: string, subject: string, text: string) {
     try {
       const info = await this.transporter.sendMail({
-        from: `"Qoldi Uz" <${process.env.MAIL_USER}>`,
+        from: `"U BOX" <${process.env.MAIL_USER}>`,
         to,
         subject,
         text,
