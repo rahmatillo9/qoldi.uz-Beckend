@@ -35,6 +35,14 @@ export class Messages extends Model<Messages> {
     })
     content!: string;
 
+    @Column({
+        type: DataType.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      })
+      isRead!: boolean;
+      
+
     // Bog‘lanishlar
     @BelongsTo(() => User, 'senderId')
     sender!: User;
@@ -52,6 +60,8 @@ export class Messages extends Model<Messages> {
     })
     chatRoomId!: number;
 
-    @BelongsTo(() => ChatRoom)
+    @BelongsTo(() => ChatRoom,
+     { onDelete: 'CASCADE',
+        hooks: true,})
     chatRoom!: ChatRoom;
 }

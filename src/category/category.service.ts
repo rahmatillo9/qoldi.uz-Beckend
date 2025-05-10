@@ -4,30 +4,34 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Category } from './category.entity';
 import { Product } from 'src/product/product.entity';
 import { ProductImage } from 'src/product-image/product-image.entity';
-
+import { Op } from 'sequelize';
+import { User } from 'src/users/user.entity';
 @Injectable()
 export class CategoryService {
     constructor(
         @InjectModel(Category) private readonly categoryModel: typeof Category,
-    ) {}
+    ) { }
 
     async createCategory(categoryDto: CategoryDto): Promise<Category> {
         const category = await this.categoryModel.create({ ...categoryDto } as Category);
         return category;
     }
 
+
+
+
     async getAllCategories(): Promise<Category[]> {
         const categories = await this.categoryModel.findAll({
-            include: [
-                {
-                  model: Product,
-                  include: [
-                    {
-                      model: ProductImage,
-                    },
-                  ],
-                },
-              ],
+            // include: [
+            //     {
+            //       model: Product,
+            //       include: [
+            //         {
+            //           model: ProductImage,
+            //         },
+            //       ],
+            //     },
+            //   ],
         });
         return categories;
     }
@@ -36,14 +40,22 @@ export class CategoryService {
         const category = await this.categoryModel.findByPk(id, {
             include: [
                 {
-                  model: Product,
-                  include: [
-                    {
-                      model: ProductImage,
-                    },
-                  ],
+                    model: Product,
+                    include: [
+                        {
+                            model: ProductImage,
+                        },
+
+                        {
+                            model: User,
+                            attributes: ["id", "username", "avatar"],
+                            as: "user",
+                        },
+                    ],
                 },
-              ],
+
+              
+            ],
         });
         if (!category) {
             throw new Error(`Category with id ${id} not found`);
@@ -61,23 +73,31 @@ export class CategoryService {
         const category = await this.getCategoryById(id);
         await category.destroy();
     }
-    
-    async getCategoryByName(name: string): Promise<Category> {
-        const category = await this.categoryModel.findOne({ where: { name },
+
+
+
+    // nameUz: "Texnika"
+    async getCategoryByName(nameUz: string): Promise<Category> {
+        const category = await this.categoryModel.findOne({
+            where: {
+                // name -> JSONB ustun, uz ichidagi qiymatni solishtiryapmiz
+                'name.uz': {
+                    [Op.iLike]: nameUz,
+                },
+            },
             include: [
                 {
-                  model: Product,
-                  include: [
-                    {
-                      model: ProductImage,
-                    },
-                  ],
+                    model: Product,
+                    include: [ProductImage],
                 },
-              ],
+            ],
         });
+
         if (!category) {
-            throw new Error(`Category with name ${name} not found`);
+            throw new Error(`Category with name '${nameUz}' not found`);
         }
+
         return category;
     }
+
 }

@@ -38,8 +38,8 @@ export class ProductImageService {
     const productImage = await this.findOne(id);
     if (!productImage) throw new NotFoundException('Image not found');
 
-    if (productImage.imageUrl) {
-      const imagePath = `.${productImage.imageUrl}`;
+    if (productImage.dataValues.imageUrl) {
+      const imagePath = `.${productImage.dataValues.imageUrl}`;
       if (existsSync(imagePath)) {
         unlink(imagePath, (err) => {
           if (err) console.error('Rasmni o‘chirishda xatolik:', err);

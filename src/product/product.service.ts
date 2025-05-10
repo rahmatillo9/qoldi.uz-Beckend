@@ -9,7 +9,9 @@ import { Messages } from 'src/message/message.entity';
 import { ChatRoom } from 'src/chat-room/chat-room.entity';
 import { promisify } from 'util';
 import { unlink } from 'fs';
-import { Category } from 'src/category/category.entity';
+
+import { User } from 'src/users/user.entity';
+import { Op } from 'sequelize';
 
 const unlinkAsync = promisify(unlink);
 @Injectable()
@@ -27,17 +29,42 @@ export class ProductService {
     return product;
   }
 
-  async getAllProducts(): Promise<Product[]> {
-    const products = await this.productModel.findAll({
+  async getPaginatedProducts(limit: number, offset: number): Promise<{ data: Product[]; total: number }> {
+    const { rows: products, count: total } = await this.productModel.findAndCountAll({
       include: [
-        { model: ProductImage, as: 'images' }
+        { model: ProductImage, 
+          as: 'images'
+         },
+
+         {
+          model: User,
+          as: 'user',
+          attributes: ['id', 'username', 'avatar'],
+         }
       ],
+      limit,
+      offset,
+      order: [['createdAt', 'DESC']], // eng yangi mahsulotlar birinchi chiqadi
     });
-    return products;
+  
+    return { data: products, total };
   }
+  
 
   async getProductByUserId(userId: number): Promise<Product[]> {
-    const products = await this.productModel.findAll({ where: { userId } });
+    const products = await this.productModel.findAll({ where: { userId }, 
+      include: [
+        { model: ProductImage, 
+          as: 'images'
+         },
+
+         {
+          model: User,
+          as: 'user',
+          attributes: ['id', 'username', 'avatar'],
+         }
+      ],
+      order: [['createdAt', 'DESC']], });
     if (!products) {
       throw new Error(`Products with user id ${userId} not found`);
     }
@@ -47,15 +74,14 @@ export class ProductService {
   async getProductById(id: number): Promise<Product> {
     const product = await this.productModel.findByPk(id, {
       include: [
-        {
-          model: Category,
-          as: 'category',
-          attributes: ['id', 'name'],
-        },
+    
         { model: ProductImage, as: 'images' },
-        { model: Favorites, as: 'favorites' },
-        { model: Messages, as: 'messages' },
-        { model: ChatRoom, as: 'chatRooms' },
+
+        {
+          model: User,
+          as: 'user',
+          attributes: ['id', 'username', 'avatar'],
+         }
       ],
     });
     if (!product) {
@@ -70,7 +96,72 @@ export class ProductService {
     return product;
   }
 
+  async toggleProductStatus(id: number): Promise<Product> {
+    const product = await this.getProductById(id);
+  
+    if (!product) {
+      throw new Error('Product not found');
+    }
+  
+    const newStatus = product.dataValues.status === 'available' ? 'sold' : 'available';
+  
+   
+    await product.update({ status: newStatus });
+    await product.reload();
+  
+ 
+  
+    return product;
+  }
 
+
+  async searchProducts(
+    title: string,
+    minPrice?: number,
+    maxPrice?: number,
+    categoryId?: number // yangi parametr
+  ): Promise<Product[]> {
+    const whereClause: any = {
+      title: {
+        [Op.iLike]: `%${title}%`,
+      },
+    };
+  
+    if (minPrice !== undefined && maxPrice !== undefined) {
+      whereClause.price = {
+        [Op.between]: [minPrice, maxPrice],
+      };
+    } else if (minPrice !== undefined) {
+      whereClause.price = {
+        [Op.gte]: minPrice,
+      };
+    } else if (maxPrice !== undefined) {
+      whereClause.price = {
+        [Op.lte]: maxPrice,
+      };
+    }
+  
+    if (categoryId !== undefined) {
+      whereClause.categoryId = categoryId;
+    }
+  
+    const products = await this.productModel.findAll({
+      where: whereClause,
+      include: [
+        { model: ProductImage, as: 'images' },
+        {
+          model: User,
+          as: 'user',
+          attributes: ['id', 'username', 'avatar'],
+        },
+      ],
+      order: [['createdAt', 'DESC']],
+    });
+  
+    return products;
+  }
+  
+  
 
   async getProductByTitle(title: string): Promise<Product> {
     const product = await this.productModel.findOne({ where: { title } });

@@ -25,7 +25,7 @@ export class Product extends Model<Product> {
   @Column({ type: DataType.STRING, allowNull: false })
   description: string;
 
-  @Column({ type: DataType.INTEGER, allowNull: false })
+  @Column({ type: DataType.FLOAT, allowNull: false })
   price: number;
 
   @Column({

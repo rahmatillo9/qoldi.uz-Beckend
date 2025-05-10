@@ -1,7 +1,11 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import {  IsNotEmpty, IsObject } from "class-validator";
 
 export class CategoryDto {
-  @IsString()
+  @IsObject()
   @IsNotEmpty()
-  name: string;
+  name: {
+    uz: string;
+    ru: string;
+    en: string;
+  };
 }

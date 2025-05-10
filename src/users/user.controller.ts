@@ -33,8 +33,7 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  // @UseGuards(JwtAuthGuard, RolesGuard)
-  // @Roles(Role.Admin, Role.Customer)
+
 
   @Get(':id')
   async findOne(@Param('id') id: number): Promise<User> {
@@ -45,8 +44,8 @@ export class UsersController {
     return user;
   }
 
-  // @UseGuards(JwtAuthGuard, RolesGuard)
-  // @Roles(Role.Admin, Role.Customer)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin, Role.Customer)
 
   @Get('username/:nickname')
   async findByNickname(@Param('username') username: string): Promise<User> {
@@ -57,8 +56,8 @@ export class UsersController {
     return user;
   }
 
-  // @UseGuards(JwtAuthGuard, RolesGuard)
-  // @Roles(Role.Admin, Role.Customer)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin, Role.Customer)
 
   @Put(':id')
   @UseInterceptors(

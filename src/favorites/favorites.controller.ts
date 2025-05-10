@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, UseGuards } from "@nestjs/common";
+import { Controller, Get, Post, Body, Param, Delete, UseGuards, Query } from "@nestjs/common";
 import { FavoritesService } from "./favorites.service";
 import { FaoriteDto } from "src/validators/favorite.validate";
 import { JwtAuthGuard } from "src/authguard/jwt-auth.guard";
@@ -12,13 +12,13 @@ import { Roles } from "src/validators/RolesGuard/Roles";
 export class FavoritesController {
   constructor(private readonly favoriteService: FavoritesService) {}
 
-  @Roles(Role.Admin, Role.Customer)
+  // @Roles(Role.Admin, Role.Customer)
   @Post()
   create(@Body() dto: FaoriteDto) {
     return this.favoriteService.create(dto);
   }
 
-  @Roles(Role.Admin)
+  // @Roles(Role.Admin)
   @Get()
   findAll() {
     return this.favoriteService.findAll();
@@ -30,20 +30,29 @@ async toggle(@Body() dto: FaoriteDto) {
 }
 
 
-  @Roles(Role.Admin, Role.Customer)
+@Get('check')
+async checkFavorite(
+  @Query('userId') userId: number,
+  @Query('productId') productId: number,
+) {
+  return this.favoriteService.checkFavorite(userId, productId);
+}
+
+
+  // @Roles(Role.Admin, Role.Customer)
   @Get("user/:userId")
   async getFavoritesByUserId(@Param("userId") userId: string) {
     return this.favoriteService.findByUserId(+userId); // string -> number
   }
 
 
-  @Roles(Role.Admin, Role.Customer)
+  // @Roles(Role.Admin, Role.Customer)
   @Get(":id")
   findOne(@Param("id") id: number) {
     return this.favoriteService.findOne(id);
   }
 
-  @Roles(Role.Admin, Role.Customer)
+  // @Roles(Role.Admin, Role.Customer)
   @Delete(":id")
   delete(@Param("id") id: number) {
     return this.favoriteService.delete(id);

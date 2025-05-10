@@ -12,8 +12,12 @@ import {
   import { MessageService } from 'src/message/message.service';
   import { ChatRoomService } from 'src/chat-room/chat-room.service';
   import { MessageDto } from 'src/validators/message.validate';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/authguard/jwt-auth.guard';
+import { RolesGuard } from 'src/validators/RolesGuard/Roluse.guard';
   
-  @WebSocketGateway(5007, { cors: true })
+  // @UseGuards(JwtAuthGuard, RolesGuard)
+  @WebSocketGateway(5006, { cors: "*" })
   export class ChatGateway
     implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
   {

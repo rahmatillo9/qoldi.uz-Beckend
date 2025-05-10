@@ -4,6 +4,7 @@ import { Favorites } from "./favorites.entity";
 import { FaoriteDto } from "src/validators/favorite.validate";
 import { Product } from "src/product/product.entity";
 import { ProductImage } from "src/product-image/product-image.entity";
+import { User } from "src/users/user.entity";
 
 @Injectable()
 export class FavoritesService {
@@ -26,8 +27,16 @@ export class FavoritesService {
                         {
                             model: ProductImage,
                         },
+
+                        
                     ],
                 },
+
+                {
+                    model: User,
+                    attributes: ["id", "username", "avatar"],
+                    as: "user",
+                }
             ],
         });
         if (!favorites || favorites.length === 0) {
@@ -83,6 +92,18 @@ export class FavoritesService {
           await this.favoriteModel.create(dto as any);
           return { status: 'added' };
         }
+      }
+      
+
+      async checkFavorite(userId: number, productId: number): Promise<{ isFavorite: boolean }> {
+        const favorite = await this.favoriteModel.findOne({
+          where: {
+            userId,
+            productId,
+          },
+        });
+      
+        return { isFavorite: !!favorite }; // agar topilsa true, topilmasa false
       }
       
 

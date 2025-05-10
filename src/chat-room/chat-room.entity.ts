@@ -40,6 +40,9 @@ export class ChatRoom extends Model<ChatRoom> {
     @BelongsTo(() => User, 'user2Id')
     user2!: User;
 
-    @HasMany(() => Messages)
+    @HasMany(() => Messages, {
+        onDelete: 'CASCADE',
+        hooks: true,
+    })
     messages!: Messages[];
 }

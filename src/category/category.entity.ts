@@ -6,10 +6,14 @@ import { Product } from 'src/product/product.entity';
 })
 export class Category extends Model<Category> {
     @Column({
-        type: DataType.STRING,
+        type: DataType.JSON,
         allowNull: false,
     })
-    name!: string;
+    name!: {
+        uz: string;
+        ru: string;
+        en: string;
+      };
 
     @HasMany(() => Product)
     products!: Product[];
