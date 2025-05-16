@@ -40,8 +40,9 @@ export class AuthController {
       throw new HttpException('Invalid username or email', HttpStatus.UNAUTHORIZED);
     }
   
-    const payload = { id: user.id, nickname: user.username, role: user.role };
+    const payload = { id: user.dataValues.id, nickname: user.dataValues.username, role: user.dataValues.role };
     const token = this.jwtService.sign(payload);
+
   
     return { access_token: token };
   }

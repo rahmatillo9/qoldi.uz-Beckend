@@ -3,8 +3,7 @@ import { FavoritesService } from "./favorites.service";
 import { FaoriteDto } from "src/validators/favorite.validate";
 import { JwtAuthGuard } from "src/authguard/jwt-auth.guard";
 import { RolesGuard } from "src/validators/RolesGuard/Roluse.guard";
-import { Role } from "src/validators/users.validator";
-import { Roles } from "src/validators/RolesGuard/Roles";
+
 
   @UseGuards(JwtAuthGuard, RolesGuard)
 
@@ -12,13 +11,12 @@ import { Roles } from "src/validators/RolesGuard/Roles";
 export class FavoritesController {
   constructor(private readonly favoriteService: FavoritesService) {}
 
-  // @Roles(Role.Admin, Role.Customer)
+  
   @Post()
   create(@Body() dto: FaoriteDto) {
     return this.favoriteService.create(dto);
   }
 
-  // @Roles(Role.Admin)
   @Get()
   findAll() {
     return this.favoriteService.findAll();

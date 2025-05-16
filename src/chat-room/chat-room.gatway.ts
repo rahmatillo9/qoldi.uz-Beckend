@@ -17,7 +17,7 @@ import { JwtAuthGuard } from 'src/authguard/jwt-auth.guard';
 import { RolesGuard } from 'src/validators/RolesGuard/Roluse.guard';
   
   // @UseGuards(JwtAuthGuard, RolesGuard)
-  @WebSocketGateway(5006, { cors: "*" })
+  @WebSocketGateway(5007, { cors: "*" })
   export class ChatGateway
     implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
   {

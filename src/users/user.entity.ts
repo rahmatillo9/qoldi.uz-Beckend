@@ -5,20 +5,19 @@ import { Messages } from "src/message/message.entity";
 import { Product } from "src/product/product.entity";
 
 @Table({
-  tableName: "users5",
+  tableName: "users6",
   timestamps: true,
 })
 export class User extends Model<User> {
   @Column({
     type: DataType.STRING,
     allowNull: false,
-    unique: true,
   })
   username!: string;
 
   @Column({
     type: DataType.STRING,
-    allowNull: false,
+    allowNull: true,
     unique: true,
   })
   email!: string;
@@ -32,7 +31,6 @@ export class User extends Model<User> {
 
   @Column({
     type: DataType.STRING,
-    unique: true,
     allowNull: false,
   })
   password!: string;
@@ -67,8 +65,9 @@ export class User extends Model<User> {
   @Column({
     type: DataType.STRING,
     allowNull: true,
+    
   })
-  resetCode?: string;
+  resetCode?: string | null;
 
   @Column({
     type: DataType.BOOLEAN,

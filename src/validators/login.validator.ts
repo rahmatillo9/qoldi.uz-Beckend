@@ -1,15 +1,14 @@
-import { IsEmail, IsNotEmpty, IsString } from "class-validator";
+import { IsOptional, IsString } from 'class-validator';
 
 export class loginDto {
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  username?: string; // username bo‘lishi mumkin
+  username?: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  email?: string; // email bo‘lishi mumkin
+  email?: string;
 
-  @IsNotEmpty()
   @IsString()
   password: string;
 }

@@ -4,15 +4,13 @@ import { ProductDto } from 'src/validators/product.valdator';
 import { Product } from './product.entity';
 import { JwtAuthGuard } from 'src/authguard/jwt-auth.guard';
 import { RolesGuard } from 'src/validators/RolesGuard/Roluse.guard';
-import { Roles } from 'src/validators/RolesGuard/Roles';
-import { Role } from 'src/validators/users.validator';
+
 
 @Controller('product')
 export class ProductController {
     constructor(private readonly productService: ProductService) { }
 
       @UseGuards(JwtAuthGuard, RolesGuard)
-     @Roles(Role.Admin)
     @Post()
     async createPost(@Body() productDto: ProductDto) {
         return await this.productService.createProduct(productDto);

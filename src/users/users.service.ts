@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException, InternalServerErrorException } from '@nestjs/common';
 import { User } from './user.entity';
 import { InjectModel } from '@nestjs/sequelize';
 import * as bcrypt from 'bcryptjs';
@@ -19,15 +19,23 @@ export class UsersService {
   ) {}
 
   async create(createUserDto: CreateUsersDto) {
-    // Parolni hash qilish
-    const hashPassword = await bcrypt.hash(createUserDto.password, 10);
+    try {
+      // Parolni hash qilish
+      const hashPassword = await bcrypt.hash(createUserDto.password, 10);
   
-    // Yangi foydalanuvchi yaratish
-    return this.userModel.create({
-      ...createUserDto,
-      password: hashPassword, // Hashlangan parolni saqlash
-    } as User);
+      // Yangi foydalanuvchi yaratish
+      return await this.userModel.create({
+        ...createUserDto,
+        password: hashPassword,
+      } as User);
+    } catch (error) {
+      if (error.name === 'SequelizeUniqueConstraintError') {
+        throw new BadRequestException('Bu email bilan ro‘yxatdan o‘tgan foydalanuvchi mavjud.');
+      }
+      throw new InternalServerErrorException('Serverda kutilmagan xatolik yuz berdi.');
+    }
   }
+  
 
   async generateEmailConfirmationToken(userId: number): Promise<string> {
     const token = crypto.randomBytes(32).toString('hex'); // 32 baytli tasodifiy token
@@ -198,16 +206,16 @@ export class UsersService {
       throw new BadRequestException('Noto‘g‘ri yoki eskirgan tiklash kodi');
     }
   
-    // Yangi parolni hash qilamiz
     const hashedPassword = await bcrypt.hash(newPassword, 10);
   
-    // Parolni yangilaymiz
-    user.password = hashedPassword;
-    user.resetCode = undefined; // Kodni o‘chirib yuboramiz
+    user.set({
+      password: hashedPassword,
+      resetCode: null, // resetCode is explicitly set to null
+    });
+  
     await user.save();
   
     return { message: 'Parolingiz muvaffaqiyatli o‘zgartirildi!' };
   }
-  
   
 }

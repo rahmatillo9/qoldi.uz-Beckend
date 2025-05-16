@@ -4,7 +4,7 @@ import { Product } from 'src/product/product.entity';
 import { User } from 'src/users/user.entity';
 
 @Table({
-    tableName: 'messages3',
+    tableName: 'messages4',
     timestamps: true,
 })
 export class Messages extends Model<Messages> {

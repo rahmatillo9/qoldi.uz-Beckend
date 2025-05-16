@@ -15,7 +15,7 @@ import { Messages } from 'src/message/message.entity';
 import { ChatRoom } from 'src/chat-room/chat-room.entity';
 
 @Table({
-  tableName: 'products3',
+  tableName: 'products4',
   timestamps: true,
 })
 export class Product extends Model<Product> {

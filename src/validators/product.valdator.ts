@@ -1,4 +1,4 @@
-import {  IsEnum, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import {  IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 export enum Status {
     available = 'available',
@@ -18,6 +18,7 @@ export class ProductDto {
     @IsNotEmpty()
     price: number;
 
+    @IsOptional()
     @IsEnum(Status)
     @IsNotEmpty()
     status: Status;
@@ -31,8 +32,10 @@ export class ProductDto {
     userId: number;
 
     @IsNumber()
+      @IsOptional()
     latitude: number;
 
+      @IsOptional()
     @IsNumber()
     longitude: number;
     

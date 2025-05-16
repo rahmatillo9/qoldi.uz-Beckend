@@ -4,7 +4,7 @@ import { Product } from 'src/product/product.entity';
 import { User } from 'src/users/user.entity';
 
 @Table({
-    tableName: 'chat_rooms',
+    tableName: 'chat_rooms1',
     timestamps: true,
     underscored: true,
 })

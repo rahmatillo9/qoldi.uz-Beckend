@@ -33,6 +33,14 @@ async function bootstrap() {
   app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: true }));
 
+
+app.useGlobalPipes(
+  new ValidationPipe({
+    whitelist: true,
+    forbidNonWhitelisted: true,
+    transform: true,
+  }),
+);
   
   const PORT = process.env.PORT || 3000;
   await app.listen(PORT, "192.168.1.73",() => {
